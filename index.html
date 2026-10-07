@@ -882,7 +882,8 @@
       if (n === idx || animating) return;
       const comingUpFrom = idx;
       const p = panels[n - 1];
-      if (p) p.scrollTop = (n === comingUpFrom - 1) ? p.scrollHeight : 0; // arriving from below → start at its end
+      if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+      if (p) { p.scrollTop = (n === comingUpFrom - 1) ? p.scrollHeight : 0; target = p.scrollTop; } // arriving from below → start at its end
       idx = n;
       animating = true;
       render();
@@ -890,10 +891,33 @@
       history.replaceState(null, '', n ? '#' + panels[n - 1].id : location.pathname + location.search);
     }
 
+    // The active section is scrolled by the page itself, so the wheel works
+    // wherever the mouse is (left column, right column or empty space).
+    let target = 0, rafId = null;
+    const activePanel = () => (idx > 0 ? panels[idx - 1] : null);
+    const maxScroll = p => p.scrollHeight - p.clientHeight;
+    function smoothTo(p) {
+      if (rafId) return;
+      const step = () => {
+        const diff = target - p.scrollTop;
+        if (Math.abs(diff) < 0.5 || p !== activePanel()) { if (p === activePanel()) p.scrollTop = target; rafId = null; return; }
+        p.scrollTop += diff * 0.2;
+        rafId = requestAnimationFrame(step);
+      };
+      rafId = requestAnimationFrame(step);
+    }
+    function scrollPanel(delta) {
+      const p = activePanel();
+      if (!p) return;
+      target = Math.max(0, Math.min(maxScroll(p), target + delta));
+      smoothTo(p);
+    }
+    panels.forEach(p => p.addEventListener('scroll', () => { if (!rafId && p === activePanel()) target = p.scrollTop; }, { passive: true }));
+
     function atEdge(dir) {
-      if (idx === 0) return true;
-      const p = panels[idx - 1];
-      return dir > 0 ? p.scrollTop + p.clientHeight >= p.scrollHeight - 2 : p.scrollTop <= 1;
+      const p = activePanel();
+      if (!p) return true;
+      return dir > 0 ? target >= maxScroll(p) - 2 : target <= 1;
     }
 
     window.addEventListener('wheel', e => {
@@ -904,9 +928,13 @@
       // a pause or change of direction starts a new gesture
       if (now - lastWheel > 220 || dir !== lastDir) { gestureOK = atEdge(dir); jumped = false; accum = 0; }
       lastWheel = now; lastDir = dir;
-      if (animating || jumped) { e.preventDefault(); return; } // swallow leftover momentum
-      if (!gestureOK) return;                                // let the section scroll inside
       e.preventDefault();
+      if (animating || jumped) return;                       // swallow leftover momentum
+      if (!gestureOK) {                                      // scroll inside the current section
+        const unit = e.deltaMode === 1 ? 40 : e.deltaMode === 2 ? window.innerHeight : 1;
+        scrollPanel(e.deltaY * unit);
+        return;
+      }
       accum += Math.abs(e.deltaY);
       if (accum > 12) { jumped = true; goTo(idx + dir); }
     }, { passive: false });
@@ -921,8 +949,8 @@
       e.preventDefault();
       const dir = down ? 1 : -1;
       if (atEdge(dir)) return goTo(idx + dir);
-      const p = panels[idx - 1];
-      p.scrollBy({ top: dir * (e.key.startsWith('Arrow') ? 140 : p.clientHeight * 0.85), behavior: 'smooth' });
+      const p = activePanel();
+      scrollPanel(dir * (e.key.startsWith('Arrow') ? 140 : p.clientHeight * 0.85));
     });
 
     // in-page links (#about, #book, #top …) jump to the right view
@@ -942,6 +970,7 @@
       if (fpOn) {
         const i = panels.findIndex(p => '#' + p.id === location.hash);
         idx = i > -1 ? i + 1 : 0;
+        target = activePanel() ? activePanel().scrollTop : 0;
         render();
       } else {
         root.classList.remove('past-hero');
