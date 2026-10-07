@@ -27,7 +27,7 @@
       background: var(--bg);
       color: var(--text);
       font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-      font-size: 16px;
+      font-size: 1rem;
       line-height: 1.65;
       -webkit-font-smoothing: antialiased;
     }
@@ -511,6 +511,15 @@
       .hero-loc { margin-top: 6px; }
       .cta { padding: 10px 18px; }
     }
+
+    /* ---------- extra-wide monitors: use the space, scale up ---------- */
+    @media (min-width: 1600px) {
+      .layout { max-width: min(86vw, 1960px); padding: 0 clamp(96px, 5vw, 160px); gap: 4vw; }
+      .hero-main { max-width: min(80vw, 1560px); }
+    }
+    @media (min-width: 1800px) {
+      html { font-size: min(21px, calc(16px + (100vw - 1800px) * 0.0055)); }
+    }
     .menu-overlay { overflow-y: auto; }
     .menu-overlay li a { font-size: clamp(1.5rem, 3.6vw, 2.6rem); padding: 3px 0; }
 
@@ -621,12 +630,9 @@
     <nav aria-label="Main menu">
       <ol>
         <li><a href="#about">About me</a></li>
-        <li><a href="#digital">Digital &amp; AI</a></li>
-        <li><a href="#ai-leadership">AI Leadership</a></li>
         <li><a href="#experience">Experience</a></li>
+        <li><a href="#digital">Digital &amp; AI</a></li>
         <li><a href="#projects">Projects</a></li>
-        <li><a href="#speaking">Speaking &amp; Training</a></li>
-        <li><a href="#insights">Insights</a></li>
         <li><a href="#education">Education</a></li>
         <li><a href="#skills">Skills</a></li>
         <li><a href="#book">Book a meeting</a></li>
@@ -651,12 +657,9 @@
         <nav class="toc" aria-label="In-page navigation">
           <ul>
             <li><a href="#about"><span class="line"></span>About</a></li>
-            <li><a href="#digital"><span class="line"></span>Digital &amp; AI</a></li>
-            <li><a href="#ai-leadership"><span class="line"></span>AI Leadership</a></li>
             <li><a href="#experience"><span class="line"></span>Experience</a></li>
+            <li><a href="#digital"><span class="line"></span>Digital &amp; AI</a></li>
             <li><a href="#projects"><span class="line"></span>Projects</a></li>
-            <li><a href="#speaking"><span class="line"></span>Speaking &amp; Training</a></li>
-            <li><a href="#insights"><span class="line"></span>Insights</a></li>
             <li><a href="#education"><span class="line"></span>Education</a></li>
             <li><a href="#skills"><span class="line"></span>Skills</a></li>
             <li><a href="#book"><span class="line"></span>Book a meeting</a></li>
@@ -692,43 +695,6 @@
         <p>Alongside traditional process engineering, I actively work at the intersection of engineering and technology. I develop engineering tools, automate repetitive workflows, and explore how digital engineering, automation, and Artificial Intelligence can improve productivity, knowledge sharing, and decision-making within engineering organizations. I also support colleagues and project teams in adopting practical AI solutions that can be integrated into everyday engineering work.</p>
         <p>Beyond tool development, I regularly deliver AI awareness sessions, demonstrations, and training workshops for engineers and project teams, helping them understand how emerging technologies can be applied safely, effectively, and responsibly. My goal is to bridge the gap between traditional engineering expertise and modern digital tools, enabling engineers to spend less time on routine tasks and more time solving complex technical challenges.</p>
         <p>I believe the future of engineering lies in combining deep domain expertise with intelligent digital solutions, creating organizations that are not only technically strong but also more efficient, innovative, and adaptable to the challenges of tomorrow.</p>
-      </section>
-
-      <section id="digital" class="about" aria-label="Digital Engineering and Artificial Intelligence">
-        <h2 class="sec-label">Digital &amp; AI</h2>
-        <h3 class="sec-title">Digital Engineering &amp; Artificial Intelligence</h3>
-        <p>In addition to process engineering, I actively explore how Artificial Intelligence, automation and digital engineering can improve engineering productivity and project execution.</p>
-        <p>My work includes developing engineering tools, automating repetitive workflows, improving engineering data management and evaluating practical AI applications within industrial engineering environments.</p>
-        <p class="list-intro">Areas of interest include:</p>
-        <ul class="ticks">
-          <li>AI-assisted engineering workflows</li>
-          <li>Engineering automation using Python and C#</li>
-          <li>AutoCAD Plant 3D customization and development</li>
-          <li>Engineering data management</li>
-          <li>Knowledge management and retrieval systems</li>
-          <li>Process engineering digitization</li>
-          <li>AI adoption within EPCM organizations</li>
-          <li>Digital transformation for industrial projects</li>
-        </ul>
-      </section>
-
-      <section id="ai-leadership" class="about" aria-label="AI and Digital Transformation Leadership">
-        <h2 class="sec-label">AI Leadership</h2>
-        <h3 class="sec-title">AI &amp; Digital Transformation Leadership</h3>
-        <p>Alongside my project responsibilities, I actively promote the adoption of Artificial Intelligence and digital engineering practices within engineering organizations.</p>
-        <p>I regularly conduct AI awareness sessions, practical training workshops and demonstrations for engineers, project teams and business units. These sessions focus on real-world applications of AI, productivity improvement, engineering automation and responsible AI usage.</p>
-        <p>My objective is to help engineers understand not only what AI can do, but also how it can be integrated into daily engineering workflows to improve efficiency, quality and decision-making.</p>
-        <p class="list-intro">Topics frequently covered include:</p>
-        <ul class="ticks">
-          <li>Microsoft Copilot for engineering work</li>
-          <li>Prompt engineering fundamentals</li>
-          <li>AI-assisted document generation</li>
-          <li>Engineering workflow automation</li>
-          <li>Knowledge management using AI</li>
-          <li>AI use cases for process engineering</li>
-          <li>Responsible and secure AI usage</li>
-          <li>Future trends in engineering and digital transformation</li>
-        </ul>
       </section>
 
       <section id="experience" aria-label="Work experience">
@@ -801,6 +767,13 @@
             </div>
           </li>
         </ol>
+      </section>
+
+      <section id="digital" class="about" aria-label="Digital Engineering, Automation and AI">
+        <h2 class="sec-label">Digital &amp; AI</h2>
+        <h3 class="sec-title">Digital Engineering, Automation &amp; AI</h3>
+        <p>Alongside my process engineering responsibilities, I work on the practical application of digital technologies within engineering organizations. My focus is on developing engineering tools, automating repetitive workflows, improving knowledge management and exploring how Artificial Intelligence can enhance productivity and decision-making in industrial projects.</p>
+        <p>I also support the adoption of these technologies through training sessions, workshops and demonstrations, helping engineers integrate digital tools into their daily work in a practical, effective and responsible manner.</p>
       </section>
 
       <section id="projects" aria-label="Selected projects">
@@ -879,37 +852,6 @@
           <li><span class="who">Olympia Chemicals</span><span>Carbonation unit optimisation at a soda ash plant, a water pumping station with a 10 km pipeline, and pneumatic air dryer modifications.</span></li>
           <li><span class="who">National Foods</span><span>Production scheduling and supply chain optimisation.</span></li>
           <li><span class="who">Various clients</span><span>Productivity workshops for National Foods, Sapphire Fibres and Packages Limited; SOPs, KPIs and 5S for Tahir Builders.</span></li>
-        </ul>
-      </section>
-
-      <section id="speaking" class="about" aria-label="Speaking, Training and Knowledge Sharing">
-        <h2 class="sec-label">Speaking &amp; Training</h2>
-        <h3 class="sec-title">Speaking, Training &amp; Knowledge Sharing</h3>
-        <p>I enjoy sharing knowledge and helping organizations build capabilities in both engineering and digital technologies.</p>
-        <p class="list-intro">Recent activities include:</p>
-        <ul class="ticks">
-          <li>Delivering AI awareness sessions for engineering teams</li>
-          <li>Training colleagues on Microsoft Copilot and AI tools</li>
-          <li>Presenting practical AI use cases for engineering organizations</li>
-          <li>Coaching engineers on workflow automation</li>
-          <li>Supporting adoption of digital engineering practices</li>
-          <li>Mentoring junior engineers and Master's thesis students</li>
-          <li>Facilitating knowledge-sharing workshops</li>
-        </ul>
-      </section>
-
-      <section id="insights" class="about" aria-label="Articles, Insights and Presentations">
-        <h2 class="sec-label">Insights</h2>
-        <h3 class="sec-title">Articles, Insights &amp; Presentations</h3>
-        <p>I regularly explore topics related to process engineering, engineering leadership, digital transformation and Artificial Intelligence.</p>
-        <p class="list-intro">Recent focus areas include:</p>
-        <ul class="ticks">
-          <li>Practical AI applications for engineering organizations</li>
-          <li>Engineering productivity and workflow automation</li>
-          <li>AutoCAD Plant 3D tips and best practices</li>
-          <li>Commissioning and start-up lessons learned</li>
-          <li>Digital transformation in EPCM projects</li>
-          <li>Future trends in process engineering</li>
         </ul>
       </section>
 
