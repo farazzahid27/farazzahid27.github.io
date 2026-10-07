@@ -286,13 +286,15 @@
       padding: clamp(48px, 9vh, 120px) 0 96px;
       display: flex; flex-direction: column; justify-content: center;
     }
-    .greet { display: flex; align-items: flex-end; flex-wrap: wrap; gap: .1em .35em; margin: 0; }
+    .greet { position: relative; display: flex; align-items: flex-end; flex-wrap: wrap; gap: .1em .35em; margin: 0; }
     .hi {
       font-family: "Playfair Display", "Didot", "Bodoni MT", Georgia, serif; font-weight: 400;
       font-size: clamp(5rem, 13vw, 10.5rem); line-height: .85; letter-spacing: -.03em;
       color: var(--heading);
     }
-    .welcome { display: block; width: clamp(260px, 42vw, 520px); height: auto; overflow: visible; margin-bottom: -.4em; }
+    .welcome { display: block; width: clamp(260px, 42vw, 520px); height: auto; overflow: visible; }
+    .hi .bl { display: inline-block; width: 0; height: 0; vertical-align: baseline; }
+    .welcome-wrap { display: block; will-change: transform; }
     .welcome text { font-family: "Pacifico", "Brush Script MT", cursive; font-size: 118px; }
     .w-stroke { fill: none; stroke: url(#rainbow); stroke-width: 2.2; }
     .w-fill { fill: url(#rainbow); }
@@ -349,7 +351,7 @@
     @media (max-width: 700px) {
       .menu-label, .book-label { display: none; }
       .bar-divider { display: none; }
-      .welcome { width: min(78vw, 360px); margin-bottom: 0; }
+      .welcome { width: min(78vw, 360px); }
     }
 
     /* ================= MENU OVERLAY ================= */
@@ -589,8 +591,8 @@
 
     <div class="hero-main">
       <h1 class="greet">
-        <span class="hi">Hi,</span>
-        <svg class="welcome" viewBox="0 0 560 200" role="img" aria-label="Welcome">
+        <span class="hi">Hi,<span class="bl" aria-hidden="true"></span></span>
+        <span class="welcome-wrap"><svg class="welcome" viewBox="0 0 560 200" role="img" aria-label="Welcome">
           <defs>
             <linearGradient id="rainbow" x1="0" y1="0" x2="1" y2="0">
               <stop offset="0" stop-color="#7fd3e6"/>
@@ -599,7 +601,7 @@
           </defs>
           <text class="w-fill" x="10" y="150">Welcome</text>
           <text class="w-stroke" x="10" y="150">Welcome</text>
-        </svg>
+        </svg></span>
       </h1>
 
       <div class="intro">
@@ -1216,6 +1218,28 @@
     } else {
       renderCalendar();
     }
+
+    // ---------- Line up the baseline of "Welcome" with the baseline of "Hi," ----------
+    (function alignWelcome() {
+      const greet = document.querySelector('.greet');
+      const hi = greet.querySelector('.hi');
+      const mark = greet.querySelector('.bl');
+      const wrap = greet.querySelector('.welcome-wrap');
+      const BASELINE = 150 / 200; // text baseline inside the Welcome SVG (y=150 of a 200-high viewBox)
+      const top = el => { let y = 0; while (el && el !== greet) { y += el.offsetTop; el = el.offsetParent; } return y; };
+      const align = () => {
+        wrap.style.transform = '';
+        const wrapped = wrap.offsetTop > hi.offsetTop + hi.offsetHeight * 0.5; // Welcome on its own line (phones)
+        if (wrapped) return;
+        const hiBase = top(mark);
+        const welcomeBase = wrap.offsetTop + wrap.offsetHeight * BASELINE;
+        wrap.style.transform = 'translateY(' + (hiBase - welcomeBase) + 'px)';
+      };
+      align();
+      if (document.fonts) document.fonts.ready.then(align);
+      window.addEventListener('load', align);
+      let t; window.addEventListener('resize', () => { clearTimeout(t); t = setTimeout(align, 100); });
+    })();
   </script>
 </body>
 </html>
