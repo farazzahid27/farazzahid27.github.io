@@ -471,7 +471,7 @@
       position: absolute; top: 0; bottom: 0; left: -24px; right: 0;
       margin: 0; padding: 96px 28px 96px 24px;
       overflow-y: auto; overscroll-behavior: contain;
-      scrollbar-width: thin; scrollbar-color: rgba(148,163,184,.25) transparent;
+      scrollbar-width: none; -ms-overflow-style: none;
       opacity: 0; visibility: hidden; transform: translateY(56px);
       transition: opacity .45s ease, transform .6s cubic-bezier(.2,.7,.2,1), visibility 0s .6s;
     }
@@ -480,8 +480,7 @@
       opacity: 1; visibility: visible; transform: none;
       transition: opacity .55s ease .2s, transform .7s cubic-bezier(.2,.7,.2,1) .2s, visibility 0s 0s;
     }
-    html.fp main > section::-webkit-scrollbar { width: 6px; }
-    html.fp main > section::-webkit-scrollbar-thumb { background: rgba(148,163,184,.25); border-radius: 3px; }
+    html.fp main > section::-webkit-scrollbar { display: none; width: 0; height: 0; }
     @media (prefers-reduced-motion: reduce) {
       html.fp .hero, html.fp .site, html.fp main > section { transition-duration: .01s !important; transition-delay: 0s !important; transform: none !important; }
     }
