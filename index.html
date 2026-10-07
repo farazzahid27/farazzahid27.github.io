@@ -108,6 +108,7 @@
       letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--muted);
+      transition: color .25s, font-size .3s ease, letter-spacing .3s ease;
     }
     nav.toc .line {
       display: inline-block;
@@ -118,7 +119,9 @@
       transition: width 0.15s, background 0.15s;
     }
     nav.toc a:hover, nav.toc a.active { color: var(--heading); }
-    nav.toc a:hover .line, nav.toc a.active .line { width: 64px; background: var(--heading); }
+    nav.toc a:hover .line { width: 64px; background: var(--heading); }
+    nav.toc a.active { font-size: 1.15rem; letter-spacing: .12em; padding: 16px 0; }
+    nav.toc a.active .line { width: 72px; background: var(--accent); }
 
     .socials { display: flex; align-items: center; gap: 20px; list-style: none; margin: 32px 0 0; padding: 0; }
     .socials a { color: var(--text); display: block; }
@@ -428,6 +431,48 @@
     .side .title2 { margin: 2px 0 0; font-size: .98rem; color: var(--text); }
 
     .site { position: relative; }
+
+    /* ================= FULL-PAGE MODE (desktop) =================
+       One view at a time: welcome page, then one section at a time.
+       Long sections scroll inside; at the end, the next scroll jumps on. */
+    html.fp { scroll-behavior: auto; }
+    html.fp, html.fp body { height: 100%; overflow: hidden; }
+    html.fp .hero {
+      position: fixed; inset: 0; z-index: 30;
+      transition: transform .9s cubic-bezier(.7,0,.2,1), opacity .7s ease, visibility 0s 0s;
+    }
+    html.fp.past-hero .hero {
+      transform: translateY(-100%); opacity: 0; visibility: hidden; pointer-events: none;
+      transition: transform .9s cubic-bezier(.7,0,.2,1), opacity .7s ease, visibility 0s .9s;
+    }
+    html.fp .site {
+      position: fixed; inset: 0; z-index: 1;
+      opacity: 0; visibility: hidden;
+      transition: opacity .6s ease, visibility 0s .6s;
+    }
+    html.fp.past-hero .site { opacity: 1; visibility: visible; transition: opacity .7s ease .35s, visibility 0s 0s; }
+    html.fp .layout { height: 100vh; }
+    html.fp header.side { height: 100vh; }
+    html.fp main { position: relative; height: 100vh; padding: 0; }
+    html.fp main > section {
+      position: absolute; top: 0; bottom: 0; left: -24px; right: 0;
+      margin: 0; padding: 96px 28px 96px 24px;
+      overflow-y: auto; overscroll-behavior: contain;
+      scrollbar-width: thin; scrollbar-color: rgba(148,163,184,.25) transparent;
+      opacity: 0; visibility: hidden; transform: translateY(56px);
+      transition: opacity .45s ease, transform .6s cubic-bezier(.2,.7,.2,1), visibility 0s .6s;
+    }
+    html.fp main > section.is-above { transform: translateY(-56px); }
+    html.fp main > section.is-active {
+      opacity: 1; visibility: visible; transform: none;
+      transition: opacity .55s ease .2s, transform .7s cubic-bezier(.2,.7,.2,1) .2s, visibility 0s 0s;
+    }
+    html.fp main > section::-webkit-scrollbar { width: 6px; }
+    html.fp main > section::-webkit-scrollbar-thumb { background: rgba(148,163,184,.25); border-radius: 3px; }
+    @media (prefers-reduced-motion: reduce) {
+      html.fp .hero, html.fp .site, html.fp main > section { transition-duration: .01s !important; transition-delay: 0s !important; transform: none !important; }
+    }
+
   </style>
 </head>
 <body>
@@ -768,11 +813,12 @@
           </div>
           <div class="book-stage" id="bookStage" aria-live="polite"></div>
         </div>
-      </section>
-
-      <footer class="note">
+      <footer class="note" style="margin-top:40px">
         <p>Want to talk about a project or role? <a href="#book">Book a meeting</a> or email me at <a href="mailto:farazzahid027@gmail.com">farazzahid027@gmail.com</a>. References available on request.</p>
       </footer>
+      </section>
+
+
     </main>
   </div>
   </div>
@@ -785,18 +831,115 @@
       spot.style.setProperty('--y', e.clientY + 'px');
     });
 
-    // Highlight active section in the left nav
-    const links = document.querySelectorAll('nav.toc a');
-    const sections = [...links].map(a => document.querySelector(a.getAttribute('href')));
+    // ---------- Navigation: full-page on desktop, normal scrolling on phones ----------
+    const root = document.documentElement;
+    const links = [...document.querySelectorAll('nav.toc a')];
+    const panels = [...document.querySelectorAll('main#content > section')];
+    const FP_QUERY = window.matchMedia('(min-width: 1024px) and (hover: hover) and (pointer: fine)');
+    let fpOn = false, idx = 0, animating = false;
+    let lastWheel = 0, lastDir = 0, gestureOK = false, jumped = false, accum = 0;
+
+    const markNav = id => links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
+
+    // normal-scroll highlight (phones / small screens)
     const setActive = () => {
-      let current = sections[0];
+      if (fpOn) return;
+      let current = panels[0];
       const mid = window.innerHeight * 0.35;
-      sections.forEach(s => { if (s.getBoundingClientRect().top <= mid) current = s; });
-      if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 4) current = sections[sections.length - 1];
-      links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current.id));
+      panels.forEach(s => { if (s.getBoundingClientRect().top <= mid) current = s; });
+      if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 4) current = panels[panels.length - 1];
+      markNav(current.id);
     };
     window.addEventListener('scroll', setActive, { passive: true });
-    setActive();
+
+    function render() {
+      root.classList.toggle('past-hero', idx > 0);
+      panels.forEach((p, i) => {
+        const n = i + 1;
+        p.classList.toggle('is-active', n === idx);
+        p.classList.toggle('is-above', n < idx);
+        p.setAttribute('aria-hidden', String(n !== idx));
+        if (n !== idx) p.setAttribute('inert', ''); else p.removeAttribute('inert');
+      });
+      document.querySelector('.hero').toggleAttribute('inert', idx > 0);
+      markNav(idx > 0 ? panels[idx - 1].id : '');
+    }
+
+    function goTo(n) {
+      n = Math.max(0, Math.min(panels.length, n));
+      if (n === idx || animating) return;
+      const comingUpFrom = idx;
+      const p = panels[n - 1];
+      if (p) p.scrollTop = (n === comingUpFrom - 1) ? p.scrollHeight : 0; // arriving from below → start at its end
+      idx = n;
+      animating = true;
+      render();
+      setTimeout(() => { animating = false; }, 950);
+      history.replaceState(null, '', n ? '#' + panels[n - 1].id : location.pathname + location.search);
+    }
+
+    function atEdge(dir) {
+      if (idx === 0) return true;
+      const p = panels[idx - 1];
+      return dir > 0 ? p.scrollTop + p.clientHeight >= p.scrollHeight - 2 : p.scrollTop <= 1;
+    }
+
+    window.addEventListener('wheel', e => {
+      if (!fpOn || document.querySelector('.menu-overlay.open')) return;
+      const dir = Math.sign(e.deltaY);
+      if (!dir) return;
+      const now = performance.now();
+      // a pause or change of direction starts a new gesture
+      if (now - lastWheel > 220 || dir !== lastDir) { gestureOK = atEdge(dir); jumped = false; accum = 0; }
+      lastWheel = now; lastDir = dir;
+      if (animating || jumped) { e.preventDefault(); return; } // swallow leftover momentum
+      if (!gestureOK) return;                                // let the section scroll inside
+      e.preventDefault();
+      accum += Math.abs(e.deltaY);
+      if (accum > 12) { jumped = true; goTo(idx + dir); }
+    }, { passive: false });
+
+    window.addEventListener('keydown', e => {
+      if (!fpOn || e.target.closest('input, textarea, select') || document.querySelector('.menu-overlay.open')) return;
+      const down = ['ArrowDown', 'PageDown'].includes(e.key) || (e.key === ' ' && !e.shiftKey);
+      const up = ['ArrowUp', 'PageUp'].includes(e.key) || (e.key === ' ' && e.shiftKey);
+      if (e.key === 'Home') { e.preventDefault(); return goTo(0); }
+      if (e.key === 'End') { e.preventDefault(); return goTo(panels.length); }
+      if (!down && !up) return;
+      e.preventDefault();
+      const dir = down ? 1 : -1;
+      if (atEdge(dir)) return goTo(idx + dir);
+      const p = panels[idx - 1];
+      p.scrollBy({ top: dir * (e.key.startsWith('Arrow') ? 140 : p.clientHeight * 0.85), behavior: 'smooth' });
+    });
+
+    // in-page links (#about, #book, #top …) jump to the right view
+    document.addEventListener('click', e => {
+      const a = e.target.closest('a[href^="#"]');
+      if (!a || !fpOn) return;
+      const id = a.getAttribute('href').slice(1);
+      e.preventDefault();
+      if (!id || id === 'top') return goTo(0);
+      const i = panels.findIndex(p => p.id === id);
+      if (i > -1) goTo(i + 1);
+    });
+
+    function setMode() {
+      fpOn = FP_QUERY.matches;
+      root.classList.toggle('fp', fpOn);
+      if (fpOn) {
+        const i = panels.findIndex(p => '#' + p.id === location.hash);
+        idx = i > -1 ? i + 1 : 0;
+        render();
+      } else {
+        root.classList.remove('past-hero');
+        document.querySelector('.hero').removeAttribute('inert');
+        panels.forEach(p => { p.classList.remove('is-active', 'is-above'); p.removeAttribute('aria-hidden'); p.removeAttribute('inert'); });
+        setActive();
+      }
+    }
+    (FP_QUERY.addEventListener ? FP_QUERY.addEventListener('change', setMode) : FP_QUERY.addListener(setMode));
+    setMode();
   
     /* ---------- Menu overlay ---------- */
     const menu = document.getElementById('menu');
