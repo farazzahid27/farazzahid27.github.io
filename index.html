@@ -452,18 +452,18 @@
     html.fp, html.fp body { height: 100%; overflow: hidden; }
     html.fp .hero {
       position: fixed; inset: 0; z-index: 30;
-      transition: transform .9s cubic-bezier(.7,0,.2,1), opacity .7s ease, visibility 0s 0s;
+      transition: transform .7s cubic-bezier(.65,0,.25,1), opacity .5s ease, visibility 0s 0s;
     }
     html.fp.past-hero .hero {
       transform: translateY(-100%); opacity: 0; visibility: hidden; pointer-events: none;
-      transition: transform .9s cubic-bezier(.7,0,.2,1), opacity .7s ease, visibility 0s .9s;
+      transition: transform .7s cubic-bezier(.65,0,.25,1), opacity .5s ease, visibility 0s .7s;
     }
     html.fp .site {
       position: fixed; inset: 0; z-index: 1;
       opacity: 0; visibility: hidden;
       transition: opacity .6s ease, visibility 0s .6s;
     }
-    html.fp.past-hero .site { opacity: 1; visibility: visible; transition: opacity .7s ease .35s, visibility 0s 0s; }
+    html.fp.past-hero .site { opacity: 1; visibility: visible; transition: opacity .5s ease .2s, visibility 0s 0s; }
     html.fp .layout { height: 100vh; }
     html.fp header.side { height: 100vh; }
     html.fp main { position: relative; height: 100vh; padding: 0; }
@@ -472,13 +472,13 @@
       margin: 0; padding: 96px 28px 96px 24px;
       overflow-y: auto; overscroll-behavior: contain;
       scrollbar-width: none; -ms-overflow-style: none;
-      opacity: 0; visibility: hidden; transform: translateY(56px);
-      transition: opacity .45s ease, transform .6s cubic-bezier(.2,.7,.2,1), visibility 0s .6s;
+      opacity: 0; visibility: hidden; transform: translateY(36px);
+      transition: opacity .3s ease, transform .45s cubic-bezier(.2,.7,.2,1), visibility 0s .45s;
     }
-    html.fp main > section.is-above { transform: translateY(-56px); }
+    html.fp main > section.is-above { transform: translateY(-36px); }
     html.fp main > section.is-active {
       opacity: 1; visibility: visible; transform: none;
-      transition: opacity .55s ease .2s, transform .7s cubic-bezier(.2,.7,.2,1) .2s, visibility 0s 0s;
+      transition: opacity .4s ease .08s, transform .5s cubic-bezier(.2,.7,.2,1) .08s, visibility 0s 0s;
     }
     html.fp main > section::-webkit-scrollbar { display: none; width: 0; height: 0; }
     @media (prefers-reduced-motion: reduce) {
@@ -887,7 +887,7 @@
       idx = n;
       animating = true;
       render();
-      setTimeout(() => { animating = false; }, 950);
+      setTimeout(() => { animating = false; }, 600);
       history.replaceState(null, '', n ? '#' + panels[n - 1].id : location.pathname + location.search);
     }
 
@@ -901,7 +901,7 @@
       const step = () => {
         const diff = target - p.scrollTop;
         if (Math.abs(diff) < 0.5 || p !== activePanel()) { if (p === activePanel()) p.scrollTop = target; rafId = null; return; }
-        p.scrollTop += diff * 0.2;
+        p.scrollTop += diff * 0.28;
         rafId = requestAnimationFrame(step);
       };
       rafId = requestAnimationFrame(step);
@@ -910,7 +910,8 @@
       const p = activePanel();
       if (!p) return;
       target = Math.max(0, Math.min(maxScroll(p), target + delta));
-      smoothTo(p);
+      if (Math.abs(delta) < 50 && !rafId) { p.scrollTop = target; return; } // trackpad: 1:1, no lag
+      smoothTo(p);                                                          // mouse wheel: smooth glide
     }
     panels.forEach(p => p.addEventListener('scroll', () => { if (!rafId && p === activePanel()) target = p.scrollTop; }, { passive: true }));
 
@@ -920,23 +921,36 @@
       return dir > 0 ? target >= maxScroll(p) - 2 : target <= 1;
     }
 
+    // Wheel / trackpad: scroll the current section; keep going past its end and it flows on to the next.
+    let lockUntil = 0, overscroll = 0, lastAbs = 0, afterJump = false;
     window.addEventListener('wheel', e => {
       if (!fpOn || document.querySelector('.menu-overlay.open')) return;
       const dir = Math.sign(e.deltaY);
       if (!dir) return;
-      const now = performance.now();
-      // a pause or change of direction starts a new gesture
-      if (now - lastWheel > 220 || dir !== lastDir) { gestureOK = atEdge(dir); jumped = false; accum = 0; }
-      lastWheel = now; lastDir = dir;
       e.preventDefault();
-      if (animating || jumped) return;                       // swallow leftover momentum
-      if (!gestureOK) {                                      // scroll inside the current section
-        const unit = e.deltaMode === 1 ? 40 : e.deltaMode === 2 ? window.innerHeight : 1;
-        scrollPanel(e.deltaY * unit);
-        return;
+      const unit = e.deltaMode === 1 ? 40 : e.deltaMode === 2 ? window.innerHeight : 1;
+      const abs = Math.abs(e.deltaY) * unit;
+      const now = performance.now();
+      const newGesture = now - lastWheel > 200 || dir !== lastDir;
+      if (newGesture) { overscroll = 0; afterJump = false; }
+      lastWheel = now; lastDir = dir;
+
+      if (now < lockUntil) { lastAbs = abs; return; }          // section is still sliding in
+      if (afterJump) {                                         // same gesture that caused the jump
+        if (abs < lastAbs || (abs === lastAbs && abs < 40)) { lastAbs = abs; return; } // fading trackpad momentum: ignore
+        afterJump = false;                                     // user is actively scrolling again
       }
-      accum += Math.abs(e.deltaY);
-      if (accum > 12) { jumped = true; goTo(idx + dir); }
+      lastAbs = abs;
+
+      if (!atEdge(dir)) { overscroll = 0; scrollPanel(dir * abs); return; }
+
+      // at the top/bottom of the view: a small push moves on to the next section
+      overscroll += abs;
+      const needed = (idx === 0 || newGesture) ? 10 : 90;
+      if (overscroll >= needed) {
+        overscroll = 0; afterJump = true; lockUntil = now + 600;
+        goTo(idx + dir);
+      }
     }, { passive: false });
 
     window.addEventListener('keydown', e => {
@@ -979,6 +993,11 @@
         setActive();
       }
     }
+    window.addEventListener('hashchange', () => {
+      if (!fpOn) return;
+      const i = panels.findIndex(p => '#' + p.id === location.hash);
+      goTo(i > -1 ? i + 1 : 0);
+    });
     (FP_QUERY.addEventListener ? FP_QUERY.addEventListener('change', setMode) : FP_QUERY.addListener(setMode));
     setMode();
   
