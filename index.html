@@ -234,6 +234,7 @@
     }
     @media (min-width: 640px) { .simple li { grid-template-columns: 2fr 6fr; gap: 32px; } }
     .simple .who { color: var(--heading); font-weight: 500; }
+    .card .role-line { color: var(--accent); font-size: .9rem; font-weight: 500; margin-top: 2px; }
     .simple .who-sub { display: block; margin-top: 2px; color: var(--accent); font-size: .78rem; font-weight: 500; }
     .earlier-h { margin: 64px 0 8px; color: var(--heading); font-size: 1.05rem; font-weight: 600; }
 
@@ -460,6 +461,9 @@
     .roles .r2 { display: block; margin-top: 6px; color: var(--text); max-width: 46em; }
     .side .title { line-height: 1.45; font-size: 1.05rem; max-width: 30rem; }
     .side .title .sep { margin: 0 .4em; }
+    .side .title .nw { white-space: nowrap; }
+    @media (min-width: 1024px) { .side .title { font-size: clamp(.92rem, 1.05vw, 1.05rem); } header.side { width: clamp(320px, 34%, 540px); } }
+    html.fp main > section:focus, html.fp main > section:focus-visible { outline: none; }
     .sr-sep { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
     .sec-title { margin: 0 0 18px; color: var(--heading); font-family: "Bitter", Georgia, serif; font-size: 1.5rem; font-weight: 600; line-height: 1.25; }
     @media (max-width: 1023px) { .sec-title { display: none; } }
@@ -660,7 +664,7 @@
     <header class="side">
       <div>
         <p class="side-name"><a href="#top">Faraz Zahid</a></p>
-        <p class="title">Senior Process Design Engineer<span class="sep" aria-hidden="true">|</span>Engineering Manager<span class="sr-sep">, </span><br>Digital Engineering &amp; AI Advocate</p>
+        <p class="title"><span class="nw">Senior Process Design Engineer</span><span class="sep" aria-hidden="true">|</span><span class="nw">Engineering Manager</span><span class="sr-sep">, </span><br><span class="nw">Digital Engineering &amp; AI Advocate</span></p>
         <p class="tagline">Combining process engineering, project leadership and digital innovation to deliver better industrial outcomes.</p>
         <p class="loc">Tampere, Finland</p>
 
@@ -709,57 +713,83 @@
         <ol class="cards">
           <li>
             <div class="card">
-              <div class="when">2021 — Present</div>
+              <div class="when">May 2021 – Present</div>
               <div>
-                <h3><span class="hl">Senior Process Design Engineer · Sweco Finland</span>
-                  <span class="sub">Process Lead, Engineering Manager, Digital Engineering Advocate</span></h3>
-                <p>Lead process engineering activities for major industrial projects across Europe, supporting engineering management, multidisciplinary coordination and client engagement throughout all project phases.</p>
-                <p>Responsible for developing and reviewing process engineering deliverables including design basis documents, process descriptions, mass and energy balances, PFDs, P&amp;IDs, equipment datasheets, operating philosophies and commissioning documentation.</p>
-                <p>Contribute to HAZOP studies, process safety reviews, commissioning and start-up activities while ensuring compliance with PED, ATEX and industry standards.</p>
-                <p>In parallel, develop AI-enabled engineering applications, automation tools and digital workflows that improve productivity, consistency and knowledge sharing across engineering teams.</p>
-                <p>Mentor junior engineers and Master's thesis students while supporting continuous improvement and digital transformation initiatives within the organization.</p>
-                <ul class="pills">
-                  <li>Process design</li><li>EPCM</li><li>HAZOP</li><li>Commissioning</li><li>AutoCAD Plant 3D Admin</li><li>AI tools</li>
+                <h3><span class="hl">Senior Process Design Engineer / Process Specialist</span>
+                  <span class="sub">Sweco Finland Oy | Finland</span>
+                  <span class="sub role-line">Process Lead, Engineering Manager, Digital Engineering Advocate</span></h3>
+                <ul class="card-list">
+                  <li>Lead and support process engineering activities for battery chemicals, mining &amp; minerals, hydrometallurgical and other industrial process projects across EU.</li>
+                  <li>Prepared and reviewed FEED, basic engineering and detailed engineering process deliverables including process design basis, mass and energy balances, PFDs, P&amp;IDs, equipment datasheets and operating manuals while ensuring compliance with PED requirements, ATEX considerations, process safety requirements and applicable industry standards.</li>
+                  <li>Performed process simulations, engineering calculations, process optimisation studies and technical evaluations for industrial process systems, supporting technology development, scale-up, commercialization and implementation of novel process concepts.</li>
+                  <li>Supported operational troubleshooting, process performance improvement and implementation of engineering solutions for industrial process systems.</li>
+                  <li>Undertake Process Lead, Engineering Manager, Deputy Engineering Manager and Project Engineer roles on selected EPCM assignments, supporting project delivery and client engagement.</li>
+                  <li>Coordinate multidisciplinary engineering activities, technical reviews, design changes and stakeholder communication throughout project execution.</li>
+                  <li>Support cold and hot commissioning activities, plant start-up readiness and implementation of engineering modifications.</li>
+                  <li>Participated in HAZOP studies, process safety reviews and risk assessments, supporting implementation and close-out of process safety actions and design recommendations.</li>
+                  <li>Ensured engineering designs complied with relevant HSE and quality requirements throughout project execution.</li>
+                  <li>Serve as AutoCAD Plant 3D Project Administrator and support database-driven P&amp;ID development workflows.</li>
+                  <li>Develop and deploy AI-enabled engineering tools, standardised workflows and productivity improvement initiatives across the organisation.</li>
+                  <li>Contribute to KPI development, operational improvement programmes and group-level strategy implementation.</li>
+                  <li>Act as advisor and mentor for Master's thesis projects.</li>
                 </ul>
+                <ul class="pills"><li>Process design</li><li>EPCM</li><li>HAZOP</li><li>Commissioning</li><li>AutoCAD Plant 3D Admin</li><li>AI tools</li></ul>
               </div>
             </div>
           </li>
           <li>
             <div class="card">
-              <div class="when">2018 — 2019</div>
+              <div class="when">May 2018 – Feb 2019</div>
               <div>
-                <h3><span class="hl">Research Assistant · Aalto University</span>
-                  <span class="sub">Plant Design Research Group</span></h3>
-                <p>Process simulation, mass and energy balances and techno-economic studies for mine-water treatment. Reviewed mining operations and wastewater systems, developed effluent treatment concepts, and worked with equipment suppliers and stakeholders.</p>
-                <ul class="pills">
-                  <li>Aspen Plus</li><li>Techno-economics</li><li>Mine water</li><li>Feasibility</li>
+                <h3><span class="hl">Research Assistant, Plant Design Research Group</span>
+                  <span class="sub">Aalto University | Finland</span></h3>
+                <ul class="card-list">
+                  <li>Performed process simulation, mass and energy balance calculations and technical evaluations for plant design and process development studies.</li>
+                  <li>Reviewed mining operations, wastewater treatment systems, industrial operating data, PFDs and P&amp;IDs.</li>
+                  <li>Developed effluent treatment concepts and evaluated alternative process solutions for mine-water treatment.</li>
+                  <li>Designed experimental approaches for production-related challenges and supported the development of novel process concepts.</li>
+                  <li>Conducted detailed feasibility and techno-economic studies, including process evaluation and equipment requirements.</li>
+                  <li>Engaged with equipment manufacturers and technology suppliers to collect technical and commercial information.</li>
+                  <li>Coordinated stakeholder meetings and prepared technical reports, project documentation and presentations.</li>
                 </ul>
+                <ul class="pills"><li>Aspen Plus</li><li>Techno-economics</li><li>Mine water</li><li>Feasibility</li></ul>
               </div>
             </div>
           </li>
           <li>
             <div class="card">
-              <div class="when">2016 — 2017</div>
+              <div class="when">Sep 2016 – May 2017</div>
               <div>
-                <h3><span class="hl">Subject Matter Expert, Operational Excellence · MNBEC</span>
-                  <span class="sub">Lahore, Pakistan</span></h3>
-                <p>Developed SOPs and KPI frameworks, implemented 5S, optimised production scheduling and supply chains, and ran productivity improvement workshops for industrial clients.</p>
-                <ul class="pills">
-                  <li>SOPs</li><li>KPIs</li><li>5S</li><li>Supply chain</li>
+                <h3><span class="hl">Subject Matter Expert, Operational Excellence</span>
+                  <span class="sub">Management and Business Excellence Consultancy | Lahore, Pakistan</span></h3>
+                <ul class="card-list">
+                  <li>Developed and implemented Standard Operating Procedures to improve consistency and operational performance.</li>
+                  <li>Supported production scheduling and supply chain optimisation for industrial operations.</li>
+                  <li>Implemented 5S methodology and other operational excellence practices within client organisations.</li>
+                  <li>Developed KPI frameworks and performance-monitoring approaches to support management decision-making.</li>
+                  <li>Planned and facilitated productivity improvement workshops for industrial clients.</li>
                 </ul>
+                <ul class="pills"><li>SOPs</li><li>KPIs</li><li>5S</li><li>Supply chain</li></ul>
               </div>
             </div>
           </li>
           <li>
             <div class="card">
-              <div class="when">2015 — 2016</div>
+              <div class="when">May 2015 – Aug 2016</div>
               <div>
-                <h3><span class="hl">Assistant Project Manager · FKR Engineering</span>
-                  <span class="sub">Lahore, Pakistan</span></h3>
-                <p>Basic process design, plant modifications and commissioning. Optimised process parameters, reduced production losses, and prepared economic evaluations and Operating Instruction Manuals.</p>
-                <ul class="pills">
-                  <li>Commissioning</li><li>Optimisation</li><li>OIMs</li>
+                <h3><span class="hl">Assistant Project Manager</span>
+                  <span class="sub">FKR Engineering Project Services | Lahore, Pakistan</span></h3>
+                <ul class="card-list">
+                  <li>Supported basic process design, engineering modifications and process improvement activities for industrial facilities.</li>
+                  <li>Participated in commissioning and start-up activities as a member of the project commissioning team.</li>
+                  <li>Monitored production losses and supported corrective actions to improve operational efficiency.</li>
+                  <li>Evaluated and optimised process parameters to improve production performance and process stability.</li>
+                  <li>Reviewed proposed process modifications and supported their design, technical evaluation and implementation.</li>
+                  <li>Coordinated shop-floor activities and provided technical support to production and operations teams.</li>
+                  <li>Prepared process economic evaluations, technical reports and Operating Instruction Manuals.</li>
+                  <li>Supported project coordination between engineering, commissioning and plant operations.</li>
                 </ul>
+                <ul class="pills"><li>Commissioning</li><li>Optimisation</li><li>OIMs</li></ul>
               </div>
             </div>
           </li>
@@ -867,20 +897,22 @@
         <ol class="cards">
           <li>
             <div class="card">
-              <div class="when">2017 — 2019</div>
+              <div class="when">2017 - 2019</div>
               <div>
-                <h3><span class="hl">M.Sc. (Tech.) Chemical and Process Engineering · Aalto University</span>
-                  <span class="sub">Minor: Process Systems Engineering · Specialisation: Plant Design</span></h3>
-                <p>Thesis: <a href="http://urn.fi/URN:NBN:fi:aalto-201912226701" target="_blank" rel="noopener">Techno-economic Assessment of a Process for Recovery of Sulphur from Mine Water</a></p>
+                <h3><span class="hl">Master of Science (Technology) in Chemical and Process Engineering</span>
+                  <span class="sub">Aalto University | Finland</span></h3>
+                <p>Minor: Process Systems Engineering | Specialisation: Plant Design</p>
+                <p>Master’s thesis: <a href="http://urn.fi/URN:NBN:fi:aalto-201912226701" target="_blank" rel="noopener">Techno-economic Assessment of a Process for Recovery of Sulphur from Mine Water.</a></p>
               </div>
             </div>
           </li>
           <li>
             <div class="card">
-              <div class="when">2010 — 2014</div>
+              <div class="when">2010 - 2014</div>
               <div>
-                <h3><span class="hl">B.Sc. Chemical Engineering · University of the Punjab</span>
-                  <span class="sub">Institute of Chemical Engineering and Technology, Lahore</span></h3>
+                <h3><span class="hl">Bachelor of Science (Engineering) in Chemical Engineering</span>
+                  <span class="sub">Institute of Chemical Engineering and Technology, University of the Punjab, Lahore | Pakistan</span></h3>
+                <p>Major: Chemical Engineering</p>
               </div>
             </div>
           </li>
