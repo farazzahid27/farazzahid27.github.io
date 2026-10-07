@@ -445,6 +445,76 @@
 
     .site { position: relative; }
 
+    /* ---------- content additions ---------- */
+    .sep { display: inline-block; margin: 0 .55em; color: var(--accent); opacity: .7; font-weight: 400; }
+    .roles .r1 { display: block; font-weight: 600; }
+    @media (max-width: 700px) {
+      .roles .r1 .sep { display: none; }
+      .roles .r1 .role { display: block; }
+      .roles .r2 { margin-top: 10px; }
+    }
+    .roles .r2 { display: block; margin-top: 6px; color: var(--text); max-width: 46em; }
+    .side .title { line-height: 1.45; font-size: 1.05rem; max-width: 30rem; }
+    .side .title .sep { margin: 0 .4em; }
+    .sr-sep { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+    .sec-title { margin: 0 0 18px; color: var(--heading); font-family: "Bitter", Georgia, serif; font-size: 1.5rem; font-weight: 600; line-height: 1.25; }
+    @media (max-width: 1023px) { .sec-title { display: none; } }
+    .list-intro { margin: 22px 0 10px !important; color: var(--heading); font-weight: 500; }
+    .ticks { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px 28px; }
+    @media (min-width: 640px) { .ticks { grid-template-columns: 1fr 1fr; } }
+    .ticks li { position: relative; padding-left: 22px; font-size: .95rem; line-height: 1.5; }
+    .ticks li::before { content: ""; position: absolute; left: 0; top: .62em; width: 10px; height: 2px; background: var(--accent); }
+    .card p + p { margin-top: 10px; }
+    .card-list { margin: 8px 0 0; padding-left: 1.1em; font-size: .92rem; }
+    .card-list li { margin-bottom: 6px; }
+    .card-list li::marker { color: var(--accent); }
+    .skills { display: grid; gap: 30px; }
+    .skill-group h4 { margin: 0 0 10px; color: var(--heading); font-size: .95rem; font-weight: 600; }
+    .skill-group .pills { margin: 0; }
+    .skill-group .langs { max-width: 360px; }
+    /* left column holds more menu items now */
+    @media (min-width: 1024px) {
+      nav.toc { margin-top: 40px; }
+      nav.toc a { padding: 7px 0; }
+      nav.toc a.active { padding: 10px 0; font-size: 1.05rem; }
+      .side-book { margin-top: 24px; }
+      .socials { margin-top: 22px; }
+      header.side { padding: 72px 0 56px; }
+    }
+
+    /* ---------- fit the welcome page and sidebar on one screen ---------- */
+    .hero-main { padding: clamp(20px, 5vh, 72px) 0 clamp(24px, 5vh, 56px); }
+    .hi { font-size: clamp(3.6rem, min(11vw, 15vh), 9rem); }
+    .welcome { width: clamp(240px, min(38vw, 52vh), 480px); }
+    .intro { margin-top: clamp(16px, 3.5vh, 44px); }
+    .statement { margin-top: clamp(14px, 3vh, 30px); font-size: clamp(1.1rem, min(2vw, 2.9vh), 1.6rem); }
+    .statement-2 { margin-top: 12px; font-size: clamp(.95rem, 1.9vh, 1.05rem); }
+    .hero-cta { margin-top: clamp(16px, 3.2vh, 32px); }
+    @media (min-width: 1024px) and (max-height: 820px) {
+      .side .side-name { font-size: 2.2rem; }
+      .side .title { font-size: .95rem; margin-top: 8px; }
+      .side .tagline { margin-top: 10px; font-size: .92rem; }
+      .side .loc { margin-top: 4px; }
+      nav.toc { margin-top: 24px; }
+      nav.toc a { padding: 5px 0; }
+      nav.toc a.active { padding: 7px 0; font-size: .98rem; }
+      header.side { padding: 48px 0 36px; }
+      .side-book { margin-top: 16px; }
+      .socials { margin-top: 16px; }
+    }
+
+    @media (min-width: 1024px) and (max-height: 800px) {
+      .hero { padding-top: 16px; }
+      .hero-main { padding-top: 8px; padding-bottom: 16px; }
+      .roles { font-size: 1rem; line-height: 1.45; }
+      .roles .r2 { font-size: .95rem; margin-top: 4px; }
+      .hero-loc { margin-top: 6px; }
+      .cta { padding: 10px 18px; }
+    }
+    .menu-overlay { overflow-y: auto; }
+    .menu-overlay li a { font-size: clamp(1.5rem, 3.6vw, 2.6rem); padding: 3px 0; }
+
+
     /* ================= FULL-PAGE MODE (desktop) =================
        One view at a time: welcome page, then one section at a time.
        Long sections scroll inside; at the end, the next scroll jumps on. */
@@ -526,15 +596,15 @@
       <div class="intro">
         <p class="iam serif fade-up d1">I am Faraz Zahid,</p>
         <p class="roles fade-up d1">
-          Senior Process Design Engineer
-          <span class="r2">Process Lead and Engineering Manager on EPCM projects</span>
+          <span class="r1"><span class="role">Senior Process Design Engineer</span><span class="sep" aria-hidden="true">|</span><span class="role">Engineering Manager</span><span class="sep" aria-hidden="true">|</span><span class="role">Digital Engineering &amp; AI Advocate</span></span>
+          <span class="r2">Leading industrial projects from concept development to commissioning while driving engineering innovation through digitalization, automation, and Artificial Intelligence.</span>
         </p>
         <p class="hero-loc fade-up d2">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
           Tampere, Finland
         </p>
-        <p class="statement fade-up d3">My experience spans process design, engineering management, commissioning and start-up across battery chemicals, mining, hydrometallurgy and industrial processing.</p>
-        <p class="statement-2 fade-up d3">I am interested in improving industrial processes through sound engineering, digitalisation and practical applications of AI.</p>
+        <p class="statement fade-up d3">I lead process engineering teams and deliver industrial projects from feasibility studies to commissioning across battery chemicals, mining, hydrometallurgy and advanced industrial processing.</p>
+        <p class="statement-2 fade-up d3">Beyond traditional engineering, I develop digital tools and AI-enabled workflows that help engineers work smarter, automate repetitive tasks and improve project execution.</p>
         <div class="hero-cta fade-up d4">
           <a class="cta cta-fill" href="#book">Book a meeting</a>
           <a class="cta cta-line" href="#about">About me</a>
@@ -551,9 +621,14 @@
     <nav aria-label="Main menu">
       <ol>
         <li><a href="#about">About me</a></li>
+        <li><a href="#digital">Digital &amp; AI</a></li>
+        <li><a href="#ai-leadership">AI Leadership</a></li>
         <li><a href="#experience">Experience</a></li>
         <li><a href="#projects">Projects</a></li>
+        <li><a href="#speaking">Speaking &amp; Training</a></li>
+        <li><a href="#insights">Insights</a></li>
         <li><a href="#education">Education</a></li>
+        <li><a href="#skills">Skills</a></li>
         <li><a href="#book">Book a meeting</a></li>
       </ol>
     </nav>
@@ -569,17 +644,21 @@
     <header class="side">
       <div>
         <p class="side-name"><a href="#top">Faraz Zahid</a></p>
-        <p class="title">Senior Process Design Engineer</p>
-        <p class="title2">Process Lead and Engineering Manager on EPCM projects</p>
-        <p class="tagline">I design industrial processes and see them through to start-up.</p>
+        <p class="title">Senior Process Design Engineer<span class="sep" aria-hidden="true">|</span>Engineering Manager<span class="sr-sep">, </span><br>Digital Engineering &amp; AI Advocate</p>
+        <p class="tagline">Combining process engineering, project leadership and digital innovation to deliver better industrial outcomes.</p>
         <p class="loc">Tampere, Finland</p>
 
         <nav class="toc" aria-label="In-page navigation">
           <ul>
             <li><a href="#about"><span class="line"></span>About</a></li>
+            <li><a href="#digital"><span class="line"></span>Digital &amp; AI</a></li>
+            <li><a href="#ai-leadership"><span class="line"></span>AI Leadership</a></li>
             <li><a href="#experience"><span class="line"></span>Experience</a></li>
             <li><a href="#projects"><span class="line"></span>Projects</a></li>
+            <li><a href="#speaking"><span class="line"></span>Speaking &amp; Training</a></li>
+            <li><a href="#insights"><span class="line"></span>Insights</a></li>
             <li><a href="#education"><span class="line"></span>Education</a></li>
+            <li><a href="#skills"><span class="line"></span>Skills</a></li>
             <li><a href="#book"><span class="line"></span>Book a meeting</a></li>
           </ul>
         </nav>
@@ -607,21 +686,49 @@
     <main id="content">
       <section id="about" class="about" aria-label="About me">
         <h2 class="sec-label">About</h2>
-        <p>
-          I'm a process engineer with <strong>8+ years of experience</strong> delivering FEED, detailed design,
-          commissioning, start-up and EPCM projects across <strong>battery chemicals</strong>, <strong>mining</strong>,
-          <strong>hydrometallurgy</strong> and novel industrial processing.
-        </p>
-        <p>
-          Currently, I'm a Senior Process Design Engineer at <a href="https://www.sweco.fi/" target="_blank" rel="noopener">Sweco Finland</a>,
-          where I lead process design and take engineering management roles on projects for international clients across Europe.
-          I work from early feasibility studies through to cold and hot commissioning, with a focus on process safety,
-          optimisation and getting multidisciplinary teams to deliver together.
-        </p>
-        <p>
-          I'm also passionate about digitalisation. At Sweco I build AI-enabled engineering tools and help colleagues
-          put them into everyday use, automating repetitive work so engineers can spend more time on engineering.
-        </p>
+        <h3 class="sec-title">About me</h3>
+        <p>I am a Senior Process Design Engineer with <strong>more than eight years of experience</strong> delivering industrial projects from concept development and feasibility studies through detailed design, commissioning and start-up. My experience spans <strong>battery chemicals</strong>, <strong>mining</strong>, <strong>hydrometallurgy</strong>, specialty chemicals, and emerging industrial technologies, with responsibilities covering process design, engineering management, multidisciplinary coordination, process safety, commissioning, and operational readiness.</p>
+        <p>At <a href="https://www.sweco.fi/" target="_blank" rel="noopener">Sweco Finland Oy</a>, I serve as a Process Lead, Engineering Manager, and Deputy Engineering Manager on international EPCM projects, leading engineering teams and coordinating stakeholders to deliver complex industrial projects for clients across Europe. Throughout my career, I have been passionate about turning technical concepts into practical, reliable, and efficient industrial solutions while maintaining a strong focus on safety, quality, and project execution.</p>
+        <p>Alongside traditional process engineering, I actively work at the intersection of engineering and technology. I develop engineering tools, automate repetitive workflows, and explore how digital engineering, automation, and Artificial Intelligence can improve productivity, knowledge sharing, and decision-making within engineering organizations. I also support colleagues and project teams in adopting practical AI solutions that can be integrated into everyday engineering work.</p>
+        <p>Beyond tool development, I regularly deliver AI awareness sessions, demonstrations, and training workshops for engineers and project teams, helping them understand how emerging technologies can be applied safely, effectively, and responsibly. My goal is to bridge the gap between traditional engineering expertise and modern digital tools, enabling engineers to spend less time on routine tasks and more time solving complex technical challenges.</p>
+        <p>I believe the future of engineering lies in combining deep domain expertise with intelligent digital solutions, creating organizations that are not only technically strong but also more efficient, innovative, and adaptable to the challenges of tomorrow.</p>
+      </section>
+
+      <section id="digital" class="about" aria-label="Digital Engineering and Artificial Intelligence">
+        <h2 class="sec-label">Digital &amp; AI</h2>
+        <h3 class="sec-title">Digital Engineering &amp; Artificial Intelligence</h3>
+        <p>In addition to process engineering, I actively explore how Artificial Intelligence, automation and digital engineering can improve engineering productivity and project execution.</p>
+        <p>My work includes developing engineering tools, automating repetitive workflows, improving engineering data management and evaluating practical AI applications within industrial engineering environments.</p>
+        <p class="list-intro">Areas of interest include:</p>
+        <ul class="ticks">
+          <li>AI-assisted engineering workflows</li>
+          <li>Engineering automation using Python and C#</li>
+          <li>AutoCAD Plant 3D customization and development</li>
+          <li>Engineering data management</li>
+          <li>Knowledge management and retrieval systems</li>
+          <li>Process engineering digitization</li>
+          <li>AI adoption within EPCM organizations</li>
+          <li>Digital transformation for industrial projects</li>
+        </ul>
+      </section>
+
+      <section id="ai-leadership" class="about" aria-label="AI and Digital Transformation Leadership">
+        <h2 class="sec-label">AI Leadership</h2>
+        <h3 class="sec-title">AI &amp; Digital Transformation Leadership</h3>
+        <p>Alongside my project responsibilities, I actively promote the adoption of Artificial Intelligence and digital engineering practices within engineering organizations.</p>
+        <p>I regularly conduct AI awareness sessions, practical training workshops and demonstrations for engineers, project teams and business units. These sessions focus on real-world applications of AI, productivity improvement, engineering automation and responsible AI usage.</p>
+        <p>My objective is to help engineers understand not only what AI can do, but also how it can be integrated into daily engineering workflows to improve efficiency, quality and decision-making.</p>
+        <p class="list-intro">Topics frequently covered include:</p>
+        <ul class="ticks">
+          <li>Microsoft Copilot for engineering work</li>
+          <li>Prompt engineering fundamentals</li>
+          <li>AI-assisted document generation</li>
+          <li>Engineering workflow automation</li>
+          <li>Knowledge management using AI</li>
+          <li>AI use cases for process engineering</li>
+          <li>Responsible and secure AI usage</li>
+          <li>Future trends in engineering and digital transformation</li>
+        </ul>
       </section>
 
       <section id="experience" aria-label="Work experience">
@@ -632,8 +739,12 @@
               <div class="when">2021 — Present</div>
               <div>
                 <h3><span class="hl">Senior Process Design Engineer · Sweco Finland</span>
-                  <span class="sub">Process Lead, Engineering Manager, Deputy Engineering Manager</span></h3>
-                <p>Lead process engineering for battery chemicals, mining, hydrometallurgical and industrial projects across the EU. Prepare and review FEED, basic and detailed deliverables (design basis, mass and energy balances, PFDs, P&amp;IDs, datasheets and operating manuals) in line with PED, ATEX and process safety requirements. Support commissioning and start-up, take part in HAZOPs, act as AutoCAD Plant 3D Project Administrator, develop AI-enabled tools and mentor Master's thesis students.</p>
+                  <span class="sub">Process Lead, Engineering Manager, Digital Engineering Advocate</span></h3>
+                <p>Lead process engineering activities for major industrial projects across Europe, supporting engineering management, multidisciplinary coordination and client engagement throughout all project phases.</p>
+                <p>Responsible for developing and reviewing process engineering deliverables including design basis documents, process descriptions, mass and energy balances, PFDs, P&amp;IDs, equipment datasheets, operating philosophies and commissioning documentation.</p>
+                <p>Contribute to HAZOP studies, process safety reviews, commissioning and start-up activities while ensuring compliance with PED, ATEX and industry standards.</p>
+                <p>In parallel, develop AI-enabled engineering applications, automation tools and digital workflows that improve productivity, consistency and knowledge sharing across engineering teams.</p>
+                <p>Mentor junior engineers and Master's thesis students while supporting continuous improvement and digital transformation initiatives within the organization.</p>
                 <ul class="pills">
                   <li>Process design</li><li>EPCM</li><li>HAZOP</li><li>Commissioning</li><li>AutoCAD Plant 3D Admin</li><li>AI tools</li>
                 </ul>
@@ -749,9 +860,14 @@
             <div class="card">
               <div class="when">Sweco internal</div>
               <div>
-                <h3><span class="hl">AI and productivity improvement</span><span class="sub">Developer and trainer</span></h3>
-                <p>Developed and deployed AI-based tools, trained staff in practical AI workflows, automated repeatable tasks and standardised engineering processes.</p>
-                <ul class="pills"><li>Python</li><li>AI</li><li>Automation</li></ul>
+                <h3><span class="hl">AI Adoption and Engineering Productivity Programme</span><span class="sub">Sweco Finland</span></h3>
+                <ul class="card-list">
+                  <li>Designed and delivered AI awareness sessions, workshops and practical demonstrations for engineering teams across multiple business units.</li>
+                  <li>Developed AI-enabled engineering tools and automation workflows that reduced repetitive work, improved information retrieval and increased engineering productivity.</li>
+                  <li>Supported teams in identifying practical AI use cases for process design, project delivery, document generation, engineering calculations and knowledge management.</li>
+                  <li>Promoted responsible AI adoption by helping engineers understand limitations, risks and best practices for using AI in technical environments.</li>
+                </ul>
+                <ul class="pills"><li>AI adoption</li><li>Microsoft Copilot</li><li>Automation</li><li>Training</li></ul>
               </div>
             </div>
           </li>
@@ -763,6 +879,37 @@
           <li><span class="who">Olympia Chemicals</span><span>Carbonation unit optimisation at a soda ash plant, a water pumping station with a 10 km pipeline, and pneumatic air dryer modifications.</span></li>
           <li><span class="who">National Foods</span><span>Production scheduling and supply chain optimisation.</span></li>
           <li><span class="who">Various clients</span><span>Productivity workshops for National Foods, Sapphire Fibres and Packages Limited; SOPs, KPIs and 5S for Tahir Builders.</span></li>
+        </ul>
+      </section>
+
+      <section id="speaking" class="about" aria-label="Speaking, Training and Knowledge Sharing">
+        <h2 class="sec-label">Speaking &amp; Training</h2>
+        <h3 class="sec-title">Speaking, Training &amp; Knowledge Sharing</h3>
+        <p>I enjoy sharing knowledge and helping organizations build capabilities in both engineering and digital technologies.</p>
+        <p class="list-intro">Recent activities include:</p>
+        <ul class="ticks">
+          <li>Delivering AI awareness sessions for engineering teams</li>
+          <li>Training colleagues on Microsoft Copilot and AI tools</li>
+          <li>Presenting practical AI use cases for engineering organizations</li>
+          <li>Coaching engineers on workflow automation</li>
+          <li>Supporting adoption of digital engineering practices</li>
+          <li>Mentoring junior engineers and Master's thesis students</li>
+          <li>Facilitating knowledge-sharing workshops</li>
+        </ul>
+      </section>
+
+      <section id="insights" class="about" aria-label="Articles, Insights and Presentations">
+        <h2 class="sec-label">Insights</h2>
+        <h3 class="sec-title">Articles, Insights &amp; Presentations</h3>
+        <p>I regularly explore topics related to process engineering, engineering leadership, digital transformation and Artificial Intelligence.</p>
+        <p class="list-intro">Recent focus areas include:</p>
+        <ul class="ticks">
+          <li>Practical AI applications for engineering organizations</li>
+          <li>Engineering productivity and workflow automation</li>
+          <li>AutoCAD Plant 3D tips and best practices</li>
+          <li>Commissioning and start-up lessons learned</li>
+          <li>Digital transformation in EPCM projects</li>
+          <li>Future trends in process engineering</li>
         </ul>
       </section>
 
@@ -790,15 +937,34 @@
           </li>
         </ol>
 
-        <div class="two" style="margin-top:56px;">
-          <div>
-            <h3>Software</h3>
-            <ul class="pills" style="margin:0;">
-              <li>Aspen Plus</li><li>ChemCAD</li><li>Wanda</li><li>AutoCAD Plant 3D (Administrator)</li><li>AutoCAD</li><li>AVEVA PDMS</li><li>Python</li><li>C / C#</li><li>MS Office</li>
-            </ul>
+</section>
+
+      <section id="skills" aria-label="Skills">
+        <h2 class="sec-label">Skills</h2>
+        <h3 class="sec-title">Skills</h3>
+        <div class="skills">
+          <div class="skill-group">
+            <h4>Process Engineering</h4>
+            <ul class="pills"><li>Process Design</li><li>Process Simulation</li><li>FEED</li><li>Basic Engineering</li><li>Detailed Engineering</li><li>Mass &amp; Energy Balances</li><li>Process Safety</li><li>HAZOP</li><li>Commissioning</li><li>Start-up Support</li><li>EPCM Projects</li></ul>
           </div>
-          <div>
-            <h3>Languages</h3>
+          <div class="skill-group">
+            <h4>Industrial Sectors</h4>
+            <ul class="pills"><li>Battery Chemicals</li><li>Mining</li><li>Hydrometallurgy</li><li>Chemical Processing</li><li>Industrial Manufacturing</li><li>Novel Industrial Processes</li></ul>
+          </div>
+          <div class="skill-group">
+            <h4>Engineering Software</h4>
+            <ul class="pills"><li>AutoCAD Plant 3D (Project Administrator)</li><li>AutoCAD P&amp;ID</li><li>Aspen Plus</li><li>ChemCAD</li><li>Wanda</li><li>AVEVA PDMS</li></ul>
+          </div>
+          <div class="skill-group">
+            <h4>Programming &amp; Automation</h4>
+            <ul class="pills"><li>Python</li><li>C#</li><li>SQL</li><li>VBA</li><li>Workflow Automation</li></ul>
+          </div>
+          <div class="skill-group">
+            <h4>Digital Engineering &amp; AI</h4>
+            <ul class="pills"><li>Microsoft Copilot</li><li>Artificial Intelligence</li><li>Prompt Engineering</li><li>Engineering Automation</li><li>Knowledge Management</li><li>Digital Transformation</li><li>AI-Assisted Engineering</li></ul>
+          </div>
+          <div class="skill-group">
+            <h4>Languages</h4>
             <ul class="langs">
               <li><span>English</span><span>Advanced</span></li>
               <li><span>Finnish</span><span>Elementary</span></li>
@@ -821,7 +987,7 @@
           <div class="book-stage" id="bookStage" aria-live="polite"></div>
         </div>
       <footer class="note" style="margin-top:40px">
-        <p>Want to talk about a project or role? <a href="#book">Book a meeting</a> or email me at <a href="mailto:farazzahid027@gmail.com">farazzahid027@gmail.com</a>. References available on request.</p>
+        <p>Interested in discussing process engineering, industrial projects, digital engineering or Artificial Intelligence? Feel free to <a href="#book">schedule a meeting</a> or <a href="https://www.linkedin.com/in/faraz-zahid-537a21137" target="_blank" rel="noopener">connect via LinkedIn</a>.</p>
       </footer>
       </section>
 
