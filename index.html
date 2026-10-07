@@ -8,7 +8,7 @@
   <meta name="theme-color" content="#0f172a">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600;700&family=Pacifico&family=Playfair+Display:wght@400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #0f172a;
@@ -77,7 +77,7 @@
         padding: 96px 0;
       }
     }
-    .side h1 {
+    .side .side-name {
       margin: 0;
       color: var(--heading);
       font-size: clamp(2.4rem, 5vw, 3rem);
@@ -85,7 +85,7 @@
       letter-spacing: -0.025em;
       line-height: 1.1;
     }
-    .side h1 a { color: inherit; }
+    .side .side-name a { color: inherit; }
     .side .title {
       margin: 12px 0 0;
       color: var(--heading);
@@ -246,19 +246,274 @@
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { transition: none !important; }
     }
+  
+    /* ================= HERO / WELCOME ================= */
+    .serif { font-family: "Bitter", Georgia, "Times New Roman", serif; }
+    .hero {
+      position: relative; z-index: 2;
+      min-height: 100vh; min-height: 100svh;
+      display: flex; flex-direction: column;
+      padding: 28px clamp(20px, 4vw, 56px) 0;
+    }
+    .hero-bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .brand { display: flex; align-items: center; gap: 18px; }
+    .logo {
+      font-family: "Bitter", Georgia, serif; font-weight: 700; font-size: 1.9rem; line-height: 1;
+      color: var(--heading); letter-spacing: -.03em;
+    }
+    .logo span { color: var(--accent); }
+    .bar-divider { width: 1px; height: 30px; background: rgba(148,163,184,.35); }
+    .menu-btn, .btn-book {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: none; border: 0; cursor: pointer;
+      font: inherit; font-size: .78rem; font-weight: 700; letter-spacing: .28em; text-transform: uppercase;
+      color: var(--heading); padding: 8px 4px;
+    }
+    .menu-btn:hover, .btn-book:hover { color: var(--accent); }
+    .btn-book svg { width: 22px; height: 22px; color: var(--accent); }
+    .menu-icon { display: inline-grid; gap: 5px; }
+    .menu-icon span { display: block; width: 22px; height: 2px; background: currentColor; transition: width .2s; }
+    .menu-icon span:nth-child(2) { width: 14px; }
+    .menu-btn:hover .menu-icon span:nth-child(2) { width: 22px; }
+
+    .hero-main {
+      flex: 1;
+      max-width: 1120px; width: 100%;
+      margin: 0 auto;
+      padding: clamp(48px, 9vh, 120px) 0 96px;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .greet { display: flex; align-items: flex-end; flex-wrap: wrap; gap: .1em .35em; margin: 0; }
+    .hi {
+      font-family: "Playfair Display", "Didot", "Bodoni MT", Georgia, serif; font-weight: 400;
+      font-size: clamp(5rem, 13vw, 10.5rem); line-height: .85; letter-spacing: -.03em;
+      color: var(--heading);
+    }
+    .welcome { display: block; width: clamp(260px, 42vw, 520px); height: auto; overflow: visible; margin-bottom: -.4em; }
+    .welcome text { font-family: "Pacifico", "Brush Script MT", cursive; font-size: 118px; }
+    .w-stroke { fill: none; stroke: url(#rainbow); stroke-width: 2.2; }
+    .w-fill { fill: url(#rainbow); }
+
+    .intro { margin-top: clamp(40px, 6vh, 64px); }
+    .iam { margin: 0; color: var(--heading); font-size: clamp(1.3rem, 2.2vw, 1.7rem); font-weight: 600; line-height: 1.3; }
+    .roles { margin: 6px 0 0; color: var(--heading); font-size: clamp(1.05rem, 1.6vw, 1.2rem); line-height: 1.55; }
+    .roles .r2 { display: block; color: var(--text); }
+    .hero-loc { margin: 10px 0 0; display: flex; align-items: center; gap: 8px; color: var(--text); font-size: .98rem; }
+    .hero-loc svg { width: 18px; height: 18px; color: var(--accent); }
+    .statement {
+      margin: 36px 0 0; max-width: 30em;
+      color: var(--heading); font-size: clamp(1.35rem, 2.4vw, 2rem); line-height: 1.35; font-weight: 400; letter-spacing: -.01em;
+    }
+    .statement-2 { margin: 16px 0 0; max-width: 40em; color: var(--text); font-size: 1.08rem; }
+    .hero-cta { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 36px; }
+    .cta {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 22px; border-radius: 6px; cursor: pointer;
+      font: inherit; font-size: .95rem; font-weight: 600;
+      border: 1.5px solid var(--accent); transition: background .2s, color .2s, transform .2s;
+    }
+    .cta-fill { background: var(--accent); color: var(--bg); }
+    .cta-fill:hover { color: var(--bg); transform: translateY(-2px); background: #7fd6e8; }
+    .cta-line { background: transparent; color: var(--accent); }
+    .cta-line:hover { background: rgba(92,197,220,.1); transform: translateY(-2px); }
+
+    /* ---- Load sequence: Hi rises, Welcome writes itself, text follows ---- */
+    @media (prefers-reduced-motion: no-preference) {
+      .hero-bar { opacity: 0; animation: fadeUp .8s ease-out .1s forwards; }
+      .hi { opacity: 0; transform: translateY(30px); animation: fadeUp .9s cubic-bezier(.2,.7,.2,1) .2s forwards; }
+      .w-stroke { stroke-dasharray: 1400; stroke-dashoffset: 1400; animation: write 2.4s ease-in-out .6s forwards; }
+      .w-fill { opacity: 0; animation: fadeIn .9s ease-out 2.4s forwards; }
+      .fade-up { opacity: 0; transform: translateY(18px); animation: fadeUp .8s ease-out forwards; }
+      .d1 { animation-delay: 1.2s; } .d2 { animation-delay: 1.45s; } .d3 { animation-delay: 1.7s; } .d4 { animation-delay: 1.95s; }
+    }
+    @keyframes fadeUp { to { opacity: 1; transform: none; } }
+    @keyframes fadeIn { to { opacity: 1; } }
+    @keyframes write { to { stroke-dashoffset: 0; } }
+
+    @media (max-width: 700px) {
+      .menu-label, .book-label { display: none; }
+      .bar-divider { display: none; }
+      .welcome { width: min(78vw, 360px); margin-bottom: 0; }
+    }
+
+    /* ================= MENU OVERLAY ================= */
+    .menu-overlay {
+      position: fixed; inset: 0; z-index: 60;
+      background: rgba(10, 17, 32, .97);
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 40px clamp(24px, 8vw, 120px);
+      opacity: 0; visibility: hidden; transition: opacity .3s, visibility .3s;
+    }
+    .menu-overlay.open { opacity: 1; visibility: visible; }
+    .menu-close { position: absolute; top: 28px; right: clamp(20px, 4vw, 56px); }
+    .menu-overlay ol { list-style: none; margin: 0; padding: 0; counter-reset: m; }
+    .menu-overlay li { overflow: hidden; }
+    .menu-overlay li a {
+      display: inline-block; padding: 6px 0;
+      font-family: "Bitter", Georgia, serif; font-size: clamp(2.2rem, 6vw, 4.2rem); color: var(--heading);
+      transform: translateY(100%); transition: transform .5s cubic-bezier(.2,.7,.2,1), color .2s;
+    }
+    .menu-overlay.open li a { transform: none; }
+    .menu-overlay li:nth-child(2) a { transition-delay: .05s; } .menu-overlay li:nth-child(3) a { transition-delay: .1s; }
+    .menu-overlay li:nth-child(4) a { transition-delay: .15s; } .menu-overlay li:nth-child(5) a { transition-delay: .2s; }
+    .menu-overlay li a:hover { color: var(--accent); }
+    .menu-overlay .menu-foot { margin-top: 48px; color: var(--muted); font-size: .95rem; }
+
+    /* ================= BOOK A MEETING (calendar) ================= */
+    .book-card {
+      background: #111c33; border: 1px solid rgba(148,163,184,.15); border-radius: 10px; overflow: hidden;
+      color: var(--text);
+    }
+    .book-top { display: flex; align-items: center; gap: 12px; padding: 18px 24px; border-bottom: 1px solid rgba(148,163,184,.15); font-size: .9rem; color: var(--heading); font-weight: 500; }
+    .book-top svg { width: 22px; height: 22px; color: var(--accent); flex: none; }
+    .book-top small { display: block; color: var(--muted); font-weight: 400; }
+    .book-stage { padding: 24px; }
+    .stage-title { margin: 0 0 18px; text-align: center; color: var(--heading); font-size: 1.2rem; font-weight: 700; }
+    .back { background: none; border: 0; color: var(--accent); font: inherit; font-size: .88rem; font-weight: 600; cursor: pointer; padding: 4px 0; margin-bottom: 8px; display: inline-flex; align-items: center; gap: 6px; }
+    .back:hover { text-decoration: underline; }
+
+    .month { display: flex; align-items: center; justify-content: center; gap: 28px; margin-bottom: 14px; }
+    .month strong { min-width: 150px; text-align: center; color: var(--heading); font-size: .95rem; }
+    .nav-m { width: 36px; height: 36px; border-radius: 50%; border: 0; background: none; color: var(--accent); cursor: pointer; display: grid; place-items: center; }
+    .nav-m:hover:not(:disabled) { background: var(--pill-bg); }
+    .nav-m:disabled { color: var(--muted); opacity: .4; cursor: default; }
+    .nav-m svg { width: 18px; height: 18px; }
+
+    .cal { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; max-width: 380px; margin: 0 auto; }
+    .cal .dow { text-align: center; font-size: .72rem; font-weight: 600; color: var(--muted); padding-bottom: 6px; }
+    .cal button, .cal span.day {
+      aspect-ratio: 1; width: 100%; max-width: 46px; justify-self: center;
+      display: grid; place-items: center; border-radius: 50%;
+      font: inherit; font-size: .92rem; position: relative;
+    }
+    .cal span.day { color: var(--muted); }
+    .cal button { border: 0; cursor: pointer; background: var(--pill-bg); color: var(--accent); font-weight: 700; transition: background .15s, color .15s; }
+    .cal button:hover { background: rgba(92,197,220,.22); }
+    .cal button.sel { background: var(--accent); color: var(--bg); }
+    .cal .today::after { content: ""; position: absolute; bottom: 5px; width: 4px; height: 4px; border-radius: 50%; background: currentColor; }
+    .tz { margin: 22px auto 0; max-width: 380px; font-size: .85rem; }
+    .tz b { display: block; color: var(--heading); font-weight: 600; margin-bottom: 2px; }
+
+    .times { display: grid; gap: 10px; max-width: 320px; margin: 0 auto; }
+    .times button {
+      padding: 13px; border-radius: 6px; border: 1.5px solid rgba(92,197,220,.5); background: none;
+      color: var(--accent); font: inherit; font-weight: 700; font-size: .95rem; cursor: pointer; transition: all .15s;
+    }
+    .times button:hover { border-color: var(--accent); background: var(--pill-bg); }
+    .picked { text-align: center; color: var(--text); font-size: .9rem; margin: -10px 0 18px; }
+
+    .field { display: grid; gap: 6px; margin-bottom: 14px; }
+    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 520px) { .row2 { grid-template-columns: 1fr; } }
+    .field label { font-size: .82rem; font-weight: 600; color: var(--heading); }
+    .field input, .field select, .field textarea {
+      font: inherit; font-size: .95rem; color: var(--heading);
+      background: #0b1426; border: 1px solid rgba(148,163,184,.25); border-radius: 6px; padding: 10px 12px; color-scheme: dark;
+    }
+    .field textarea { min-height: 80px; resize: vertical; }
+    .field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(92,197,220,.2); }
+    .err { color: #fca5a5; font-size: .85rem; min-height: 1.2em; margin: 0 0 8px; }
+    .done { text-align: center; padding: 16px 0; }
+    .done svg { width: 56px; height: 56px; color: var(--accent); }
+    .done h4 { color: var(--heading); margin: 12px 0 6px; font-size: 1.1rem; }
+    .cal-frame { width: 100%; height: 700px; border: 0; display: block; background: #fff; }
+
+    .side-book {
+      margin-top: 36px; padding: 11px 18px; border: 1.5px solid var(--accent); border-radius: 6px;
+      color: var(--accent); letter-spacing: .12em; font-size: .72rem;
+    }
+    .side-book:hover { background: rgba(92,197,220,.1); }
+    .side-book svg { width: 18px; height: 18px; }
+    @media (max-width: 1023px) { .book-h { display: none; } }
+    .side .title2 { margin: 2px 0 0; font-size: .98rem; color: var(--text); }
+
+    .site { position: relative; }
   </style>
 </head>
 <body>
   <div class="spotlight" id="spotlight"></div>
   <a class="skip" href="#content">Skip to content</a>
 
+  <!-- ================= START PAGE ================= -->
+  <header class="hero" id="top">
+    <div class="hero-bar">
+      <div class="brand">
+        <a class="logo" href="#top" aria-label="Faraz Zahid, back to top">FZ<span>.</span></a>
+        <span class="bar-divider"></span>
+        <button class="menu-btn" type="button" id="menuOpen" aria-expanded="false" aria-controls="menu">
+          <span class="menu-icon" aria-hidden="true"><span></span><span></span></span>
+          <span class="menu-label">Menu</span>
+        </button>
+      </div>
+      <a class="btn-book" href="#book">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="3" y="4.5" width="18" height="16" rx="2"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4M8 14h2M14 14h2M8 17.5h2"/></svg>
+        <span class="book-label">Book a meeting</span>
+      </a>
+    </div>
+
+    <div class="hero-main">
+      <h1 class="greet">
+        <span class="hi">Hi,</span>
+        <svg class="welcome" viewBox="0 0 560 200" role="img" aria-label="Welcome">
+          <defs>
+            <linearGradient id="rainbow" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#7fd3e6"/>
+              <stop offset="1" stop-color="#3b8fb5"/>
+            </linearGradient>
+          </defs>
+          <text class="w-fill" x="10" y="150">Welcome</text>
+          <text class="w-stroke" x="10" y="150">Welcome</text>
+        </svg>
+      </h1>
+
+      <div class="intro">
+        <p class="iam serif fade-up d1">I am Faraz Zahid,</p>
+        <p class="roles fade-up d1">
+          Senior Process Design Engineer
+          <span class="r2">Process Lead and Engineering Manager on EPCM projects</span>
+        </p>
+        <p class="hero-loc fade-up d2">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+          Tampere, Finland
+        </p>
+        <p class="statement fade-up d3">My experience spans process design, engineering management, commissioning and start-up across battery chemicals, mining, hydrometallurgy and industrial processing.</p>
+        <p class="statement-2 fade-up d3">I am interested in improving industrial processes through sound engineering, digitalisation and practical applications of AI.</p>
+        <div class="hero-cta fade-up d4">
+          <a class="cta cta-fill" href="#book">Book a meeting</a>
+          <a class="cta cta-line" href="#about">About me</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= MENU OVERLAY ================= -->
+  <div class="menu-overlay" id="menu" aria-hidden="true">
+    <button class="menu-btn menu-close" type="button" id="menuClose">Close
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <nav aria-label="Main menu">
+      <ol>
+        <li><a href="#about">About me</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#book">Book a meeting</a></li>
+      </ol>
+    </nav>
+    <p class="menu-foot">farazzahid027@gmail.com · +358 44 919 6393</p>
+  </div>
+
+  
+
+  <div class="site">
   <div class="layout">
 
     <!-- ========== LEFT ========== -->
     <header class="side">
       <div>
-        <h1><a href="#">Faraz Zahid</a></h1>
+        <p class="side-name"><a href="#top">Faraz Zahid</a></p>
         <p class="title">Senior Process Design Engineer</p>
+        <p class="title2">Process Lead and Engineering Manager on EPCM projects</p>
         <p class="tagline">I design industrial processes and see them through to start-up.</p>
         <p class="loc">Tampere, Finland</p>
 
@@ -268,10 +523,15 @@
             <li><a href="#experience"><span class="line"></span>Experience</a></li>
             <li><a href="#projects"><span class="line"></span>Projects</a></li>
             <li><a href="#education"><span class="line"></span>Education</a></li>
+            <li><a href="#book"><span class="line"></span>Book a meeting</a></li>
           </ul>
         </nav>
       </div>
 
+      <div>
+      <a class="btn-book side-book" href="#book">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="3" y="4.5" width="18" height="16" rx="2"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/></svg>
+        Book a meeting</a>
       <ul class="socials" aria-label="Contact links">
         <!-- Replace # with your LinkedIn URL -->
         <li><a href="#" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn">
@@ -284,11 +544,11 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>
         </a></li>
       </ul>
+      </div>
     </header>
 
     <!-- ========== RIGHT ========== -->
     <main id="content">
-
       <section id="about" class="about" aria-label="About me">
         <h2 class="sec-label">About</h2>
         <p>
@@ -317,9 +577,9 @@
               <div>
                 <h3><span class="hl">Senior Process Design Engineer · Sweco Finland</span>
                   <span class="sub">Process Lead, Engineering Manager, Deputy Engineering Manager</span></h3>
-                <p>Lead process engineering for battery chemicals, mining, hydrometallurgical and industrial projects across the EU. Prepare and review FEED, basic and detailed deliverables (design basis, mass and energy balances, PFDs, P&amp;IDs, datasheets and operating manuals) in line with PED, ATEX and process safety requirements. Support commissioning and start-up, take part in HAZOPs, administer AutoCAD Plant 3D projects, develop AI-enabled tools and mentor Master's thesis students.</p>
+                <p>Lead process engineering for battery chemicals, mining, hydrometallurgical and industrial projects across the EU. Prepare and review FEED, basic and detailed deliverables (design basis, mass and energy balances, PFDs, P&amp;IDs, datasheets and operating manuals) in line with PED, ATEX and process safety requirements. Support commissioning and start-up, take part in HAZOPs, act as AutoCAD Plant 3D Project Administrator, develop AI-enabled tools and mentor Master's thesis students.</p>
                 <ul class="pills">
-                  <li>Process design</li><li>EPCM</li><li>HAZOP</li><li>Commissioning</li><li>AutoCAD Plant 3D</li><li>AI tools</li>
+                  <li>Process design</li><li>EPCM</li><li>HAZOP</li><li>Commissioning</li><li>AutoCAD Plant 3D Admin</li><li>AI tools</li>
                 </ul>
               </div>
             </div>
@@ -482,7 +742,7 @@
           <div>
             <h3>Software</h3>
             <ul class="pills" style="margin:0;">
-              <li>Aspen Plus</li><li>ChemCAD</li><li>Wanda</li><li>AutoCAD Plant 3D</li><li>AutoCAD</li><li>AVEVA PDMS</li><li>Python</li><li>C / C#</li><li>MS Office</li>
+              <li>Aspen Plus</li><li>ChemCAD</li><li>Wanda</li><li>AutoCAD Plant 3D (Administrator)</li><li>AutoCAD</li><li>AVEVA PDMS</li><li>Python</li><li>C / C#</li><li>MS Office</li>
             </ul>
           </div>
           <div>
@@ -497,10 +757,24 @@
         </div>
       </section>
 
+      <section id="book" aria-label="Book a meeting">
+        <h2 class="sec-label">Book a meeting</h2>
+        <h3 style="margin:0 0 6px;color:var(--heading);font-size:1.5rem;font-weight:700;" class="serif book-h">Book a meeting</h3>
+        <p style="margin:0 0 20px;">Pick a day and time for a 30-minute call about a role, a project or anything process engineering.</p>
+        <div class="book-card" id="bookCard">
+          <div class="book-top">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="m16 10 6-3v10l-6-3"/></svg>
+            <div>30 min video call<small>Microsoft Teams link provided upon confirmation.</small></div>
+          </div>
+          <div class="book-stage" id="bookStage" aria-live="polite"></div>
+        </div>
+      </section>
+
       <footer class="note">
-        <p>Want to talk about a project or role? Email me at <a href="mailto:farazzahid027@gmail.com">farazzahid027@gmail.com</a>. References available on request.</p>
+        <p>Want to talk about a project or role? <a href="#book">Book a meeting</a> or email me at <a href="mailto:farazzahid027@gmail.com">farazzahid027@gmail.com</a>. References available on request.</p>
       </footer>
     </main>
+  </div>
   </div>
 
   <script>
@@ -523,6 +797,119 @@
     };
     window.addEventListener('scroll', setActive, { passive: true });
     setActive();
+  
+    /* ---------- Menu overlay ---------- */
+    const menu = document.getElementById('menu');
+    const menuOpen = document.getElementById('menuOpen');
+    const toggleMenu = open => {
+      menu.classList.toggle('open', open);
+      menu.setAttribute('aria-hidden', String(!open));
+      menuOpen.setAttribute('aria-expanded', String(open));
+      document.body.style.overflow = open ? 'hidden' : '';
+      if (open) document.getElementById('menuClose').focus();
+    };
+    menuOpen.addEventListener('click', () => toggleMenu(true));
+    document.getElementById('menuClose').addEventListener('click', () => toggleMenu(false));
+    menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => toggleMenu(false)));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && menu.classList.contains('open')) toggleMenu(false); });
+
+    /* ---------- Book a meeting ----------
+       Works now: visitor picks day + time, fills in details, and their email app opens with the request.
+       Want instant confirmations like Calendly? Paste your Calendly link below and the calendar is replaced
+       by your live Calendly widget. */
+    const BOOKING_URL = ''; // e.g. 'https://calendly.com/farazzahid/30min'
+    const SLOTS = ['09:00', '10:00', '11:00', '13:00', '14:00', '15:00', '16:00'];
+    const stage = document.getElementById('bookStage');
+    const EMAIL = 'farazzahid027@gmail.com';
+    const icon = {
+      l: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>',
+      r: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>'
+    };
+    const today = new Date(); today.setHours(0,0,0,0);
+    const firstMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    const lastMonth = new Date(today.getFullYear(), today.getMonth() + 2, 1);
+    let view = new Date(firstMonth), chosenDay = null, chosenTime = null;
+    const fmtDay = d => d.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+    const tzName = () => { try { return Intl.DateTimeFormat().resolvedOptions().timeZone.replace(/_/g, ' '); } catch (e) { return 'your local time'; } };
+    const isAvail = d => d > today && d.getDay() !== 0 && d.getDay() !== 6;
+
+    function renderCalendar() {
+      const y = view.getFullYear(), m = view.getMonth();
+      const offset = (new Date(y, m, 1).getDay() + 6) % 7;
+      const days = new Date(y, m + 1, 0).getDate();
+      let cells = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map(d => '<span class="dow">' + d + '</span>').join('');
+      for (let i = 0; i < offset; i++) cells += '<span></span>';
+      for (let d = 1; d <= days; d++) {
+        const dt = new Date(y, m, d);
+        const isToday = dt.getTime() === today.getTime() ? ' today' : '';
+        cells += isAvail(dt)
+          ? '<button type="button" data-d="' + d + '" class="' + isToday + (chosenDay && chosenDay.getTime() === dt.getTime() ? ' sel' : '') + '" aria-label="' + fmtDay(dt) + '">' + d + '</button>'
+          : '<span class="day' + isToday + '">' + d + '</span>';
+      }
+      let now; try { now = new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Helsinki' }); } catch (e) { now = ''; }
+      stage.innerHTML =
+        '<p class="stage-title">Select a day</p>' +
+        '<div class="month"><button class="nav-m" type="button" id="prevM" aria-label="Previous month"' + (view <= firstMonth ? ' disabled' : '') + '>' + icon.l + '</button>' +
+        '<strong>' + view.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' }) + '</strong>' +
+        '<button class="nav-m" type="button" id="nextM" aria-label="Next month"' + (view >= lastMonth ? ' disabled' : '') + '>' + icon.r + '</button></div>' +
+        '<div class="cal">' + cells + '</div>' +
+        '<p class="tz"><b>Time zone</b>Eastern European Time, Finland' + (now ? ' (' + now + ')' : '') + '</p>';
+      stage.querySelector('#prevM').onclick = () => { view.setMonth(view.getMonth() - 1); renderCalendar(); };
+      stage.querySelector('#nextM').onclick = () => { view.setMonth(view.getMonth() + 1); renderCalendar(); };
+      stage.querySelectorAll('.cal button').forEach(b => b.onclick = () => { chosenDay = new Date(y, m, +b.dataset.d); renderTimes(); });
+    }
+
+    function renderTimes() {
+      stage.innerHTML =
+        '<button class="back" type="button" id="backCal">' + icon.l.replace('<svg', '<svg width="16" height="16"') + 'Back</button>' +
+        '<p class="stage-title">' + fmtDay(chosenDay) + '</p>' +
+        '<p class="picked">Times shown in Finnish time (EET)</p>' +
+        '<div class="times">' + SLOTS.map(t => '<button type="button" data-t="' + t + '">' + t + '</button>').join('') + '</div>';
+      stage.querySelector('#backCal').onclick = renderCalendar;
+      stage.querySelectorAll('.times button').forEach(b => b.onclick = () => { chosenTime = b.dataset.t; renderForm(); });
+    }
+
+    function renderForm() {
+      stage.innerHTML =
+        '<button class="back" type="button" id="backTimes">' + icon.l.replace('<svg', '<svg width="16" height="16"') + 'Back</button>' +
+        '<p class="stage-title">Enter details</p>' +
+        '<p class="picked">' + fmtDay(chosenDay) + ' at ' + chosenTime + ' (Finnish time), 30 min</p>' +
+        '<form id="bookForm" novalidate>' +
+          '<div class="row2"><div class="field"><label for="bName">Name</label><input id="bName" autocomplete="name"></div>' +
+          '<div class="field"><label for="bEmail">Email</label><input id="bEmail" type="email" autocomplete="email"></div></div>' +
+          '<div class="field"><label for="bTopic">Topic</label><select id="bTopic"><option>Job opportunity</option><option>Project enquiry</option><option>Collaboration</option><option>Just a chat</option></select></div>' +
+          '<div class="field"><label for="bMsg">Anything I should know? (optional)</label><textarea id="bMsg"></textarea></div>' +
+          '<p class="err" id="bookErr" role="alert"></p>' +
+          '<button class="cta cta-fill" type="submit" style="width:100%;justify-content:center">Schedule meeting</button>' +
+        '</form>';
+      stage.querySelector('#backTimes').onclick = renderTimes;
+      stage.querySelector('#bookForm').onsubmit = e => {
+        e.preventDefault();
+        const name = stage.querySelector('#bName').value.trim();
+        const email = stage.querySelector('#bEmail').value.trim();
+        const topic = stage.querySelector('#bTopic').value;
+        const msg = stage.querySelector('#bMsg').value.trim();
+        const err = stage.querySelector('#bookErr');
+        if (!name) return err.textContent = 'Add your name.';
+        if (!/^\S+@\S+\.\S+$/.test(email)) return err.textContent = 'Add a valid email so I can send the Teams link.';
+        const when = fmtDay(chosenDay) + ' at ' + chosenTime + ' (Finnish time)';
+        const subject = 'Meeting request: ' + topic + ', ' + when;
+        const body = 'Hi Faraz,\n\nI would like to book a 30-minute meeting.\n\nName: ' + name + '\nEmail: ' + email +
+          '\nTopic: ' + topic + '\nTime: ' + when + '\n\n' + msg + '\n';
+        window.location.href = 'mailto:' + EMAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+        stage.innerHTML = '<div class="done"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></svg>' +
+          '<h4>Almost done: send the email</h4><p style="margin:0 0 16px">Your email app should open with the request for ' + when + '. Send it and I will confirm with a Teams link.</p>' +
+          '<p style="margin:0;font-size:.88rem">Nothing opened? Email <a href="mailto:' + EMAIL + '" style="color:var(--accent)">' + EMAIL + '</a>.</p>' +
+          '<button class="back" type="button" id="again" style="margin-top:16px">Book another time</button></div>';
+        stage.querySelector('#again').onclick = () => { chosenDay = chosenTime = null; renderCalendar(); };
+      };
+    }
+
+    if (BOOKING_URL) {
+      document.getElementById('bookCard').innerHTML = '<iframe class="cal-frame" title="Book a meeting with Faraz Zahid" src="' + BOOKING_URL + '?hide_gdpr_banner=1&background_color=111c33&text_color=e2e8f0&primary_color=5cc5dc"></iframe>';
+    } else {
+      renderCalendar();
+    }
   </script>
 </body>
 </html>
